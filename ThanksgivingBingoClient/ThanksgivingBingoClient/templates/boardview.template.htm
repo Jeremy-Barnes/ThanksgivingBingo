@@ -1,0 +1,74 @@
+﻿<div class="container-fluid container-maxWidth">
+    <div *ngIf="app.loggedIn">
+        <h2 (click)="test()">{{gameLobby.gameName}}</h2>
+         <h2 *ngIf="activePlayer != myPlayer">Viewing {{activePlayer.user.userName}}'s board</h2> <button [hidden]="activePlayer == myPlayer" (click)="activePlayer = myPlayer" class="btn btn-warning"> 
+        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back to Your Board</button>
+        <div *ngIf="activePlayer">
+            <div class="row">
+                <div class="col-md-2 col-sm-2 col-xs-2 bingoHeader"><h2>B</h2></div>
+                <div class="col-md-2 col-sm-2 col-xs-2 bingoHeader"><h2>I</h2></div>
+                <div class="col-md-2 col-sm-2 col-xs-2 bingoHeader"><h2>N</h2></div>
+                <div class="col-md-2 col-sm-2 col-xs-2 bingoHeader"><h2>G</h2></div>
+                <div class="col-md-2 col-sm-2 col-xs-2 bingoHeader"><h2>O</h2></div>
+            </div>
+            <div class="row" *ngFor="let row of activePlayer.bingoCard.board">
+                <div class="col-md-2 col-sm-2 col-xs-2 bingocell"  *ngFor="let item of row.item">
+                    <div>
+                        <span [ngClass]="{'marked': item.marked }"></span>
+                        <div style="z-index: 0" (click)="item.selected = !item.selected; item.changed = false;">
+                            {{item.cellContents}}
+                        </div>
+                        <div [hidden]="!item.selected || activePlayer != myPlayer">
+                            <button class="btn btn-sm btn-warning" type="button" (click)="item.marked = !item.marked; item.changed = !item.changed;">
+                                <span *ngIf="item.marked">Unmark this spot!</span>
+                                <span *ngIf="!item.marked">Mark this spot!</span>
+                            </button> <br />
+                            <button class="btn btn-sm btn-warning" type="button" (click)="viewNote(item)" data-target="#viewEditNote">Edit Note</button> <br />
+                            <button class="btn btn-sm btn-warning" type="button" [hidden]="!item.changed" (click)="saveCell(item)">Save Changes</button>
+                        </div>
+                        <div [hidden]="!item.note || !item.selected || activePlayer == myPlayer">
+                            <button class="btn btn-sm btn-warning" type="button" (click)="viewNote(item)" data-target="#viewEditNote">View Note</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <h2>Other Players</h2>
+            <div *ngFor="let player of gameLobby.players">
+                <div (click)="activePlayer = player">
+                    <a href="javascript:void(0)"> View {{player.user.userName}}'s board! </a>
+                </div>
+            </div>
+            <br /><br />
+            <input type="text" style="min-width: 500px;" placeholder="chat..." [(ngModel)]="messageText" name="chatbox" /> <button class="btn btn-warning" type="button" (click)="sendMessage()">Send!</button>
+            <div class="chatMessage" *ngFor="let msg of gameLobby.chat">
+                <i class="timeStamp">{{msg.timeStamp}}</i>
+                <br />
+                <p><b>{{msg.sender.user.userName}}</b> : {{msg.message}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="viewEditNote" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md" role="document">
+            <div *ngIf="activeCell" class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span class="fa fa-times" style="font-size:16px;"></span></button>
+                </div>
+                <div class="modal-body">
+                    <h2>{{activeCell.cellContents}}</h2>
+                    <p *ngIf="activePlayer != myPlayer">{{activeCell.note}}</p>
+                    <div [hidden]="activePlayer != myPlayer">
+                        <input type="text" placeholder="What did they say!?" [(ngModel)]="activeCell.note" /><br />
+                        <button class="btn btn-warning" type="button" (click)="saveCell(activeCell)">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <h2 *ngIf="!app.loggedIn">LOG IN, DIPSHIT</h2>
+</div>

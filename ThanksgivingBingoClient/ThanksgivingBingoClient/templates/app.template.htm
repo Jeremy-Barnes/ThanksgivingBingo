@@ -1,0 +1,35 @@
+﻿<!-- Normal Navbar -->
+<nav class="navbar-fixed-top navbar hidden-xs"> 
+    <div class="navbar-left navbar-brand"><h1>Thanksgiving Bingo</h1></div>
+    <div class="container-fluid">
+        <div class="navbar-header navbar-right">
+            <div class="inlineblock noAccountButtons" *ngIf="!app.loggedIn">
+                <button type="button" data-toggle="modal" data-target="#log-in" class="btn btn-warning">Login</button>
+                <a routerLink="/signUp" class="btn btn-link">Sign Up!</a>
+            </div>
+            <div [hidden]="!app.loggedIn">
+                <div class="userDropdown navBox">
+                     <b>{{user.userName}}</b>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!--Mobile Navbar-->
+<nav class="navbar optional-topbar navbar-fixed-top visible-xs">
+    <h1 class="centered">Thanksgiving Bingo</h1>
+</nav>
+
+
+<div id="main">
+    <div id="contentwrap">
+            <router-outlet></router-outlet>
+    </div>
+</div>
+<br /><br />
+
+<login></login>
+<error></error>
+<confirmDialog></confirmDialog>
+

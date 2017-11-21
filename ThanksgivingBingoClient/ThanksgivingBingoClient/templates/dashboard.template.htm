@@ -1,0 +1,16 @@
+<div class="container-fluid container-maxWidth">
+    <div *ngIf="!app.loggedIn">
+        <button class="btn btn-warning" type="button" *ngIf="!app.loggedIn" data-toggle="modal" data-target="#log-in">Login</button>
+        <a class="btn btn-link" routerLink="/signUp">Sign Up!</a>
+    </div>
+    <div *ngIf="app.loggedIn">
+        <h2 class="centered">Would you like to play a game?</h2>
+        <div *ngFor="let lobby of visibleLobbies">
+            <div class="row">
+                <div class="col-xs-12 centered">
+                    <div (click)="joinGame()">{{lobby.gameName}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

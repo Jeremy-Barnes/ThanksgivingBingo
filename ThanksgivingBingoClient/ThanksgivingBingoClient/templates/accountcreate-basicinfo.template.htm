@@ -1,0 +1,25 @@
+﻿<div class="container-fluid">
+    <div class="page-title"><h1>Create Your Account!</h1></div>
+</div>
+<div class="container-fluid container-maxWidth">
+    <form (ngSubmit)="onSubmit()" #accountCreateForm="ngForm">
+        <div class="row">
+            <div class="col-md-6">
+
+                <p>Enter your information below:</p>
+
+                <input class="form-control" type="text" name="userName" placeholder="userName" [(ngModel)]="user.userName" required />
+                <input class="form-control" type="password" name="password" placeholder="password" (blur)="onChangePassword()" [(ngModel)]="user.password" required />
+                <input class="form-control" type="password" name="password" placeholder="confirm password" (blur)="onChangePassword()" [ngClass]="{'invalidField': !passwordsMatch}" [(ngModel)]="confirmPassword" required />
+
+                <input class="form-control" type="text" name="firstName" placeholder="first name" [(ngModel)]="user.firstName" required />
+                <input class="form-control" type="text" name="lastName" [(ngModel)]="user.lastName" placeholder="last name" required />
+
+                <input class="btn btn-primary" type="submit" value="Next" />
+            </div>
+            <div class="col-md-6 hidden-sm hidden-xs">
+                <img src="https://i.imgflip.com/1gjc7j.jpg" />
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,1 @@
+call mvn clean test install -f ../../../../ThanksgivingBingoServer/pom.xml
